@@ -126,7 +126,8 @@ class OAuthProvider implements AuthenticationProviderInterface
     protected function refreshToken(TokenInterface $expiredToken, ResourceOwnerInterface $resourceOwner)
     {
         $token = new OAuthToken($resourceOwner->refreshAccessToken($expiredToken->getRefreshToken()));
-        $token->setRefreshToken($expiredToken->getRefreshToken());
+        /* because just_social is generating a new refresh token every time we should not overwrite it with the old (invalid) */
+        // $token->setRefreshToken($expiredToken->getRefreshToken());
         $this->tokenStorage->setToken($token);
 
         return $token;
